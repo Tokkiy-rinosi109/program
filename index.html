@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<HTML lang=“ja”>
+	<head>
+	<title>
+	作成したプログラム		
+	</title>
+	
+	</head>
+	<body>
+	<h1>
+	クリプトン・フューチャー・メディア様への成果物
+	</h1>
+	<h2>
+	<p>
+	私はC++というプログラミング言語でランダムで設定された3桁の異なる数字を当てるプログラムを作成しました。
+	</p>
+	<p>
+	このゲームの仕様は数字の位置が同じ場合にHITに位置が入り、
+	<p>
+	</p>
+	数字はあっていて位置が異なる場合はBLOWに1が入ります。
+	</p>
+	<p>
+	HITが3になるようにランダムで設定した数字を当てます。
+	</P>
+
+	</h2>
+	
+	<pre><code>
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;time.h&gt;
+
+int hit(int *a,int *b)
+{
+    int n=0;
+    for(int i=0;i<3;i++)
+    {
+        if(a[i]==b[i]) n++;
+    }
+   	return n; 
+}
+
+int blow(int *a,int *b)
+{
+    int n=0;
+    for(int i=0;i<3;i++)
+    {
+        for(int j=0;j<3;j++)
+        {
+            if(a[i]==b[j] && i != j) n++;
+        }
+    }
+	return n;
+}
+
+int main(void)
+{
+	srand(time(NULL)); 
+	
+ 	int number[]={0,1,2,3,4,5,6,7,8,9};
+	for(int k=0;k<10000;k++)
+	{
+	 	int i=rand()%10;
+		int j=rand()%10;
+		int tmpi=number[i];
+		number[i]=number[j];
+		number[j]=tmpi;
+	}
+	printf("正解の数\n");
+	for(int i=0;i<3;i++) printf("%d",number[i]);
+	printf("\n");
+  
+    while(1)
+    {
+        printf("相手の異なる三桁の数字を予想:");
+		int yosou[3];		
+        for(int i=0;i<3;i++) scanf("%d",&yosou[i]);
+		
+		int hit_n=hit(yosou,number);
+		int blow_n=blow(yosou,number);
+        
+		//一致してるかどうか
+        if(hit_n==3)
+        {
+            printf("相手の3桁の数字は%d%d%dです\n",yosou[0],yosou[1],yosou[2]);
+            break;
+        }
+       
+        printf("HIT:%d,BLOW:%d\n", hit_n,blow_n);
+    }
+    
+ 	return 0;
+}
+	</pre></code>
+	</body>
